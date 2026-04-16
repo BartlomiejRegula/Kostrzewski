@@ -158,3 +158,54 @@ DCCtest(Dat, garchOrder = c(1,1), n.lags = 2, solver = "solnp",
 #spec<-ugarchspec(variance.model=list(model="sGARCH", garchOrder=c(1,1)), mean.model=list(armaOrder=c(0,0), include.mean=TRUE, garchInMean = FALSE, inMeanType = 2), distribution.model="sstd", fixed.pars=list(mu=0.001,omega=0.00001, alpha1=0.05, beta1=0.90, shape=4,skew=2))
 #y<-ugarchpath(spec, n.sim=3000, n.start=1000, m.sim=3)
 
+fit1@mfit$convergence
+
+
+simulationCCC <- cgarchsim(fit1, n.sim = 3000, m.sim = 1, startMethod = "sample", cluster=cluster,rseed=1)
+y<-simulationCCC@msim$simX[[1]][,1:3]
+DCCtest(y, garchOrder = c(1,1), n.lags = 2, solver = "solnp",
+        solver.control = list(), cluster = NULL, Z = NULL)
+
+
+
+simulationDCC<-dccsim(fit_dcc_symulacja,n.sim=3000,n.start=1000,m.sim=1, rseed=1)
+y<-simulationDCC@msim$simX[[1]][,1:3]
+DCCtest(y, garchOrder = c(1,1), n.lags = 2, solver = "solnp",
+        solver.control = list(), cluster = NULL, Z = NULL)
+
+fit_dcc_symulacja@mfit$coef[13] = 0.4
+fit_dcc_symulacja@mfit$coef[14] = 0.2
+fit_dcc_symulacja
+
+####################################################
+
+simulationDCC<-dccsim(fit_dcc_symulacja,n.sim=3000,n.start=1000,m.sim=1, rseed=1)
+
+fit_dcc_symulacja@mfit$coef[13]=0.4
+fit_dcc_symulacja@mfit$coef[14]=0.2
+fit_dcc_symulacja@mfit$coef
+fit_dcc_symulacja@mfit$matcoef
+fit_dcc_symulacja@mfit$matcoef[13]=0.4
+fit_dcc_symulacja@mfit$matcoef[14]=0.2
+
+fit_dcc_symulacja
+
+simulationDCC<-dccsim(fit_dcc_symulacja,n.sim=3000,n.start=1000,m.sim=1, rseed=1)
+y<-simulationDCC@msim$simX[[1]][,1:3]
+DCCtest(y, garchOrder = c(1,1), n.lags = 2, solver = "solnp",
+        solver.control = list(), cluster = NULL, Z = NULL)
+
+#####################################################
+
+simulationDCC<-dccsim(fit_dcc,n.sim=3000,n.start=1000,m.sim=1, rseed=9)
+y<-simulationDCC@msim$simX[[1]][,1:3]
+DCCtest(y, garchOrder = c(1,1), n.lags = 2, solver = "solnp", #tu miało być małe pvalue ale nie wiem czemu nie
+        solver.control = list(), cluster = NULL, Z = NULL)
+
+plot(fit_dcc)
+
+plot(fit_dcc, which = 4, series = c(1, 3))
+plot(fit_dcc, which = 4, series = c(2, 3))
+
+
+#zadanie 5 do domu ;)
